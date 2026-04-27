@@ -1,72 +1,72 @@
 # PortScan 🔍
 
-> Multithreaded port scanner with service detection, banner grabbing, and report generation (JSON/HTML).
+> Scanner de portas multithread com detecção de serviços, captura de banners e geração de relatórios JSON/HTML.
 
-Built as part of a cybersecurity portfolio. Educational purposes only — always obtain explicit authorization before scanning any target.
-
----
-
-## Features
-
-- **Multithreaded scanning** — configurable thread count for fast sweeps
-- **Banner grabbing** — active service fingerprinting on open ports
-- **Service detection** — maps ports to known services (SSH, HTTP, RDP, etc.)
-- **Flexible port ranges** — single ports, ranges, comma-separated, or `top100`
-- **JSON report** — structured output for integration with other tools
-- **HTML report** — visual terminal-themed report for documentation
-- **Progress bar** — real-time scan progress in the terminal
+Desenvolvido como parte de um portfólio de cibersegurança. Apenas para fins educacionais — sempre obtenha autorização explícita antes de escanear qualquer alvo.
 
 ---
 
-## Usage
+## Funcionalidades
+
+- **Scan multithread** — número de threads configurável para varreduras rápidas
+- **Captura de banners** — fingerprinting ativo de serviços em portas abertas
+- **Detecção de serviços** — mapeamento de portas para serviços conhecidos (SSH, HTTP, RDP, etc.)
+- **Ranges de portas flexíveis** — porta única, intervalos, lista separada por vírgula ou `top100`
+- **Relatório JSON** — saída estruturada para integração com outras ferramentas
+- **Relatório HTML** — relatório visual com tema terminal para documentação
+- **Barra de progresso** — progresso do scan em tempo real no terminal
+
+---
+
+## Uso
 
 ```bash
-# Basic scan (ports 1–1024)
+# Scan básico (portas 1–1024)
 python3 scanner.py scanme.nmap.org
 
-# Custom port range with banner grabbing
+# Range de portas personalizado com captura de banners
 python3 scanner.py 192.168.1.1 -p 1-10000 --banners
 
-# Top 100 common ports, HTML output
-python3 scanner.py 10.0.0.1 -p top100 --banners --html -o report
+# Top 100 portas comuns com saída HTML
+python3 scanner.py 10.0.0.1 -p top100 --banners --html -o relatorio
 
-# Specific ports, fast scan with 200 threads
+# Portas específicas, scan rápido com 200 threads
 python3 scanner.py 10.0.0.1 -p 22,80,443,3306,8080 -t 200
 
-# Full options
-python3 scanner.py <target> [options]
+# Todas as opções
+python3 scanner.py <alvo> [opções]
 ```
 
-### Options
+### Opções
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-p`, `--ports` | Port spec: `1-1024`, `22,80,443`, `top100` | `1-1024` |
-| `-t`, `--threads` | Number of concurrent threads | `100` |
-| `--timeout` | Connection timeout (seconds) | `1.0` |
-| `--banners` | Enable banner grabbing | off |
-| `-o`, `--output` | Output file base name | auto-generated |
-| `--json` | Save JSON report | off |
-| `--html` | Save HTML report | off |
+| Flag | Descrição | Padrão |
+|------|-----------|--------|
+| `-p`, `--ports` | Portas: `1-1024`, `22,80,443`, `top100` | `1-1024` |
+| `-t`, `--threads` | Número de threads simultâneas | `100` |
+| `--timeout` | Timeout de conexão (segundos) | `1.0` |
+| `--banners` | Ativar captura de banners | desativado |
+| `-o`, `--output` | Nome base do arquivo de saída | gerado automaticamente |
+| `--json` | Salvar relatório JSON | desativado |
+| `--html` | Salvar relatório HTML | desativado |
 
 ---
 
-## Example Output
+## Exemplo de Saída
 
 ```
-  Target  : scanme.nmap.org (45.33.32.156)
-  Ports   : 1024 ports
+  Alvo    : scanme.nmap.org (45.33.32.156)
+  Portas  : 1024 portas
   Threads : 100
-  Banners : yes
-  Started : 2024-11-01T14:22:05Z
+  Banners : sim
+  Início  : 2024-11-01T14:22:05Z
 
   ████████████████████████████████████████ 1024/1024
 
   ──────────────────────────────────────────────────
-  SCAN COMPLETE — 3 open port(s) found
+  SCAN CONCLUÍDO — 3 porta(s) abertas encontradas
   ──────────────────────────────────────────────────
 
-  PORT    STATE     SERVICE         BANNER
+  PORTA   ESTADO    SERVIÇO         BANNER
   ────────────────────────────────────────────────
   22      open      SSH             SSH-2.0-OpenSSH_6.6.1p1
   80      open      HTTP            HTTP/1.1 200 OK
@@ -75,7 +75,7 @@ python3 scanner.py <target> [options]
 
 ---
 
-## Reports
+## Relatórios
 
 ### JSON
 ```json
@@ -95,52 +95,52 @@ python3 scanner.py <target> [options]
 ```
 
 ### HTML
-Terminal-themed visual report with scan stats and port table. Suitable for pentest documentation.
+Relatório visual com tema terminal contendo estatísticas do scan e tabela de portas. Ideal para documentação de pentest.
 
 ---
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
 port-scanner/
-├── scanner.py       # Main scanner
-└── README.md        # This file
+├── scanner.py       # Scanner principal
+└── README.md        # Este arquivo
 ```
 
 ---
 
-## Technical Details
+## Detalhes Técnicos
 
-| Aspect | Implementation |
-|--------|---------------|
-| Concurrency | `ThreadPoolExecutor` with configurable workers |
+| Aspecto | Implementação |
+|---------|--------------|
+| Concorrência | `ThreadPoolExecutor` com workers configuráveis |
 | Socket | `AF_INET / SOCK_STREAM` (TCP) |
-| Banner probes | Protocol-aware probes per port (HTTP HEAD, SMTP EHLO, etc.) |
-| Encoding | UTF-8 with `errors='replace'` for binary banners |
-| Output | JSON (machine-readable) + HTML (human-readable) |
+| Probes de banner | Probes específicos por protocolo (HTTP HEAD, SMTP EHLO, etc.) |
+| Encoding | UTF-8 com `errors='replace'` para banners binários |
+| Saída | JSON (legível por máquina) + HTML (legível por humanos) |
 
 ---
 
-## Concepts Demonstrated
+## Conceitos Demonstrados
 
 - TCP connect scanning
-- Multithreading with `concurrent.futures`
-- Socket programming and banner grabbing
-- Service fingerprinting
-- Structured output / report generation
+- Multithreading com `concurrent.futures`
+- Programação de sockets e captura de banners
+- Fingerprinting de serviços
+- Geração de relatórios estruturados
 
 ---
 
-## Legal Disclaimer
+## Aviso Legal
 
-This tool is for **authorized testing and educational purposes only**.  
-Scanning systems without explicit permission is illegal and unethical.  
-The author assumes no liability for misuse.
+Esta ferramenta destina-se **exclusivamente a testes autorizados e fins educacionais**.
+Escanear sistemas sem permissão explícita é ilegal e antiético.
+O autor não se responsabiliza por uso indevido.
 
 ---
 
-## Author
+## Autor
 
-**[Your Name]**  
-Cybersecurity Graduate Student  
-[LinkedIn](https://linkedin.com/in/yourprofile) · [GitHub](https://github.com/yourusername)
+**André Santana**
+Pós-graduando em Ethical Hacking e Cibersegurança
+[LinkedIn]([https://www.linkedin.com/in/andrevsantana/]) · [GitHub](https://github.com/vSantanaa)

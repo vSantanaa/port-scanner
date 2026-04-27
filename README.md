@@ -143,4 +143,4 @@ O autor não se responsabiliza por uso indevido.
 
 **André Santana**
 Pós-graduando em Ethical Hacking e Cibersegurança
-[LinkedIn]([https://www.linkedin.com/in/andrevsantana/]) · [GitHub](https://github.com/vSantanaa)
+[LinkedIn](https://www.linkedin.com/in/andrevsantana/) · [GitHub](https://github.com/vSantanaa)
